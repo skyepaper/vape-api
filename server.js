@@ -19,6 +19,7 @@ mongoose.connect('mongodb+srv://borismirevbm:2YacEBc3qgz4OiLJ@blocks.6ud9dig.mon
 
   const User=require('./models/User');
   const Post=require('./models/Post');
+  const ServerStart=require('./models/ServerStart');
 
 const io = new Server(server, {
     cors: {
@@ -94,4 +95,20 @@ app.post('/post/new', async (req,res)=>{
   post.save();
   res.json(post);
 });
+
+app.get('/servers', cors(), async(req,res)=>{  
+
+  const servers=await ServerStart.find();
+  res.json(servers);
+});
+
+app.post('/server/new', async (req,res)=>{
+
+  const serverNew=new ServerStart({
+      start:req.body.start,
+  });
+  serverNew.save();
+  res.json(serverNew);
+});
+
 
